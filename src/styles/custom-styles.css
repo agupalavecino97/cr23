@@ -1,0 +1,66 @@
+.nav {
+    background-color: #0070FF;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav Button {
+    background-color: #FF1D1E;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.footer{
+    bottom: 0;
+    top: auto;
+    position: absolute !important;
+}
+
+.footer-toolbar {
+    background-color: #0070FF;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drawer DrawerHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.autenticationButton {
+    margin-top: 3;
+    margin-bottom: 2;
+    box-shadow: 'none';
+    text-transform: 'none';
+    font-size: 16;
+    padding: '6px 12px';
+    border: '1px solid',;
+    line-height: 1.5;
+    color: '#eee';
+    background-color: '#ff8f00';
+    border-color: '#ff8f00';
+    font-family:  'Roboto';
+}
+
+.autenticationButton:hover {
+    background-color: '#ff8f00';
+    border-color: '#ff8f00';
+    box-shadow: 'none';
+}
+.autenticationButton:active {
+    box-shadow: 'none';
+    background-color: '#ff8f00';
+    border-color: '#ff8f00';
+}
+
+.autenticationButton:focus {
+    box-shadow: '0 0 0 0.2rem rgba(0,123,255,.5)';
+}
