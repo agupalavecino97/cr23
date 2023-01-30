@@ -18,7 +18,7 @@
 .footer{
     bottom: 0;
     top: auto;
-    position: absolute !important;
+    position: fixed !important;
 }
 
 .footer-toolbar {

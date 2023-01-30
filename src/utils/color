@@ -3,26 +3,10 @@ rojo -> #FF1D1E
 azul -> #0070FF
 
 
-display: block;
-    padding: 0.5rem 1rem;
-    color: #fff;
-    font-family: 'Oswald';
-    font-size: 1.25rem;
-    font-weight: 600;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-
-
-    display: block;
-    font-family: 'Oswald';
-    font-weight: 600;
-    text-transform: uppercase;
-    color: #fff;
-    font-size: 1.5rem;
-    line-height: 1.8rem;
-    padding: 1.8rem;
-    border-width: 0 2px;
-    border-style: solid;
-    border-color: #79BDFF;
-    max-height: 85px;
+chip 1 -> #3f51b5
+chip 2 -> #ff4081
+chip 3 -> f44336
+chip 4 -> #ff5722
+chip 5 -> #42a5f5
+chip 6 -> #4caf50
+chip 7 -> #d4e157

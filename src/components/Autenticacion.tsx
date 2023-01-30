@@ -7,7 +7,7 @@ import { Usuario } from '../models/Usuario'
 import Login from './Login';
 import Registro from './Registro';
 
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
@@ -56,6 +56,7 @@ export default function Autenticacion({open, handleSetopenLogin}: Props) {
 
     const handleLogin = (data: Usuario) => {
         setLoading(true);
+
     }
 
 
