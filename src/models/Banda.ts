@@ -1,11 +1,11 @@
 export class Banda {
-    id?: string;
-    nombre?: string;
-    horaInicio?: string;
-    horaFin?: string;
-    dia?: string;
-    escenario?: string;
-    color?: string;
+    id: string = '';
+    nombre: string = '';
+    horaInicio: string = '';
+    horaFin: string = '';
+    dia: string = '';
+    escenario: string = '';
+    seleccionado: boolean = false;
 
     static parseItem(raw: any): Banda {
         const banda = new Banda();
@@ -15,6 +15,7 @@ export class Banda {
         banda.horaFin = raw.horaFin ? raw.horaFin : undefined;
         banda.dia = raw.dia ? raw.dia : undefined;
         banda.escenario = raw.escenario ? raw.escenario : undefined;
+        banda.seleccionado = raw.seleccionado ? raw.seleccionado : undefined;
         return banda;
     }
 

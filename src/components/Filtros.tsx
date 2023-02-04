@@ -48,14 +48,13 @@ export default function Filtros({dia, handleChangeDía, filtro, handleChangeFilt
                 <MenuItem value={'0'}>
                     <em>Ver Todo</em>
                 </MenuItem>
-                <MenuItem value={'f'}>Favoritos</MenuItem>
+                <MenuItem value={'g'}>Mi Grilla</MenuItem>
                 <MenuItem value={'1'}>Escenario Norte</MenuItem>
                 <MenuItem value={'2'}>Escenario Sur</MenuItem>
                 <MenuItem value={'3'}>Casita del Blues</MenuItem>
                 <MenuItem value={'4'}>Escenario Boomerang</MenuItem>
-                <MenuItem value={'5'}>Escenario Córdoba</MenuItem>
+                <MenuItem value={'5'}>Escenario Montaña</MenuItem>
                 <MenuItem value={'6'}>Escenario Paraguay</MenuItem>
-                <MenuItem value={'7'}>Escenario Nueva Tinta</MenuItem>
                 </Select>
             </FormControl>
         </Box>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Usuario } from '../models/Usuario'
 
 import '../styles/custom-styles.css';
@@ -16,7 +16,7 @@ import Alert, { AlertColor } from '@mui/material/Alert';
 
 
 const initialData = {
-    nombre: "",
+    name: "",
     email: "",
     password: "",
 }
@@ -78,6 +78,10 @@ export default function Registro({handleChangeView, handleRegistro, loading}: Pr
     const [message, setMessage] = useState("");
     const [typeAlert, setTypeAlert] = useState(severity);
 
+    useEffect(() => {
+        setForm(initialData)
+    }, [])
+    
     const handleChange = (e: any) => { 
         setForm({ 
             ...form,
@@ -96,12 +100,13 @@ export default function Registro({handleChangeView, handleRegistro, loading}: Pr
     };
 
     const handleSubmit = () => {
-        if (form.nombre === '' || form.email === '' || form.password === '') {
+        if (form.name === '' || form.email === '' || form.password === '') {
             handleOpenAlert('error', 'Datos incompletos');
             return;
         }
         let newUser = Usuario.parseItem(form)
         handleRegistro(newUser);
+        // setForm(initialData)
     }
 
   return (
@@ -124,12 +129,12 @@ export default function Registro({handleChangeView, handleRegistro, loading}: Pr
             margin="normal"
             required
             fullWidth
-            id="nombre"
+            id="name"
             label="Nombre"
-            name="nombre"
+            name="name"
             autoComplete="nombre"
             autoFocus
-            value={form.nombre}
+            value={form.name}
             onChange={handleChange}
         />
         <TextField

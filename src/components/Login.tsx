@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Usuario } from '../models/Usuario'
 
 import '../styles/custom-styles.css';
@@ -77,6 +77,10 @@ export default function Login({handleChangeView, handleLogin, loading}: Props) {
     const [openAlert, setOpenAlert] = useState(false);
     const [message, setMessage] = useState("");
     const [typeAlert, setTypeAlert] = useState(severity);
+
+    useEffect(() => {
+        setForm(initialData)
+    }, [])
 
     const handleOpenAlert = (type: AlertColor, message: string) => {
         setTypeAlert(type);

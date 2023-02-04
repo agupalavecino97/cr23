@@ -1,21 +1,20 @@
 import * as React from "react";
 import { useState } from "react";
-
+import axios from 'axios';
+import { APIs } from '../helpers/apis';
+// models
 import { Usuario } from '../models/Usuario'
-
-
+// components
 import Login from './Login';
 import Registro from './Registro';
-
+// styles
 import { styled } from '@mui/material/styles';
-
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Container from "@mui/material/Container";
-// import axios from 'axios';
-// import { APIs } from '../../helpers/apis';
+
 // import Snackbar from '@mui/material/Snackbar';
 // import Alert from '@mui/material/Alert';
 
@@ -41,10 +40,11 @@ export interface registroForm {
 export interface Props {
     open: boolean,
     handleSetopenLogin: (value: boolean) => void;
+    handleSetUserLogged: (value: Usuario) => void;
 }
 
 
-export default function Autenticacion({open, handleSetopenLogin}: Props) {
+export default function Autenticacion({open, handleSetopenLogin, handleSetUserLogged}: Props) {
 
     const [showLogin, setShowLogin] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -53,16 +53,65 @@ export default function Autenticacion({open, handleSetopenLogin}: Props) {
         handleSetopenLogin(false)
     }
 
-
-    const handleLogin = (data: Usuario) => {
+    const handleLogin = async (user: Usuario) => {
         setLoading(true);
-
+        if (!user.email || !user.password) {
+        //   handleOpenAlert('error', 'Datos incompletos');
+          setLoading(false);
+          return;
+        }
+        try {
+          const res = await axios.post(APIs.LOGIN, user);
+          if (res.data.msg) {
+            console.log(res.data.msg)
+            setLoading(false);
+            // handleOpenAlert('error', res.data.msg);
+          }
+          if (res.data) {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("userId", res.data.user.id);
+            localStorage.setItem("userName", res.data.user.name);
+            let obj = {
+                id: localStorage.getItem('userId'),
+                name: localStorage.getItem('userName')
+            };
+            handleSetUserLogged(Usuario.parseItem(obj));
+            setLoading(false);
+            handleDrawerClose();
+          } 
+        } catch (err) {
+            console.error(err);
+            // handleOpenAlert('error', err);
+            // navigate('/');
+        }
     }
 
 
-    const handleRegistro = (data: Usuario) => {
+    const handleRegistro = async (user: Usuario) => {
         setLoading(true);
-
+        if (!user.email || !user.password || !user.name) {
+        //   handleOpenAlert('error', 'Datos incompletos');
+          setLoading(false);
+          return;
+        }
+        try {
+          const res = await axios.post(APIs.REGISTRO, user);
+          if (res.data.msg) {
+            console.log(res.data.msg)
+            // handleOpenAlert('error', res.data.msg);
+          }
+          if (res.data) {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("user", res.data.user);
+            handleSetopenLogin(false)
+          } 
+          setLoading(false);
+          
+        } catch (err) {
+            console.error(err);
+            // handleOpenAlert('error', err);
+            // navigate('/');
+        }
     }
 
     return (
