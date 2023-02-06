@@ -1,11 +1,12 @@
 export class Banda {
-    id: string = '';
+    id: number = 0;
     nombre: string = '';
     horaInicio: string = '';
     horaFin: string = '';
-    dia: string = '';
+    dia: number = 0;
     escenario: string = '';
     seleccionado: boolean = false;
+    estado?: string;
 
     static parseItem(raw: any): Banda {
         const banda = new Banda();

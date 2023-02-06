@@ -1,10 +1,10 @@
 import * as React from 'react';
+import '../styles/custom-styles.css';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 // import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import '../styles/custom-styles.css';
 import { Usuario } from '../models/Usuario'
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';

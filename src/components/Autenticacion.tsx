@@ -41,10 +41,11 @@ export interface Props {
     open: boolean,
     handleSetopenLogin: (value: boolean) => void;
     handleSetUserLogged: (value: Usuario) => void;
+    setToken: (value: string) => void;
 }
 
 
-export default function Autenticacion({open, handleSetopenLogin, handleSetUserLogged}: Props) {
+export default function Autenticacion({open, handleSetopenLogin, handleSetUserLogged, setToken}: Props) {
 
     const [showLogin, setShowLogin] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -68,6 +69,7 @@ export default function Autenticacion({open, handleSetopenLogin, handleSetUserLo
             // handleOpenAlert('error', res.data.msg);
           }
           if (res.data) {
+            setToken(res.data.token)
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("userId", res.data.user.id);
             localStorage.setItem("userName", res.data.user.name);
