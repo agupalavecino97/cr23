@@ -16,140 +16,24 @@ import CheckIcon from '@mui/icons-material/Check';
 import { Banda } from '../models/Banda';
 
 const styles = {
-  btn1: {
-    border: '1px solid',
-    color: '#EEE',
-    backgroundColor: '#f06292',
-    borderColor: '#f06292',
-    zIndex: 0,
-    '&:hover': {
-      backgroundColor: '#f06292',
-      borderColor: '#f06292',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#f06292',
-      borderColor: '#f06292',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.1rem #f06292',
-    }  
-  },
-  btn2: {
+  btn: {
     border: '1px solid',
     color: '#EEE',
     backgroundColor: '#FF1D1E',
     borderColor: '#FF1D1E',
     zIndex: 0,
-    '&:hover': {
-      backgroundColor: '#FF1D1E',
-      borderColor: '#FF1D1E',
-      boxShadow: 'none',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#FF1D1E',
-      borderColor: '#FF1D1E',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.1rem #FF1D1E',
-    }       
   },
-  btn1Outline: {
-    border: '1px solid',
-    color: '#f06292',
-    backgroundColor: '#eee',
-    borderColor: '#eee',
-    zIndex: 0,
-    '&:hover': {
-      backgroundColor: '#f06292',
-      borderColor: '#f06292',
-      boxShadow: 'none',
-      color: '#eee',
-    },
-    '&:click': {
-      backgroundColor: '#f06292',
-      borderColor: '#f06292',
-      boxShadow: 'none',
-      color: '#eee',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#f06292',
-      borderColor: '#f06292',
-      color: '#eee',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.1rem #f06292',
-      color: '#eee',
-    }  
-  },
-  btn2Outline: {
+  btnOutline: {
     border: '1px solid',
     color: '#FF1D1E',
     backgroundColor: '#eee',
     borderColor: '#eee',
-    zIndex: 0,
-    '&:hover': {
-      backgroundColor: '#FF1D1E',
-      borderColor: '#FF1D1E',
-      boxShadow: 'none',
-      color: '#eee',
-    },
-    '&:click': {
-      boxShadow: 'none',
-      backgroundColor: '#FF1D1E',
-      borderColor: '#FF1D1E',
-      color: '#eee',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#FF1D1E',
-      borderColor: '#FF1D1E',
-      color: '#eee',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.1rem #FF1D1E',
-      color: '#eee',
-    }       
-  },
-  btnGuardar: {
-    border: '1px solid',
-    color: '#eee',
-    backgroundColor: '#0070FF',
-    borderColor: '#0070FF',
-    zIndex: 1,
-    position: 'absolute',
-    bottom: '15px',
-    right: '15px',
-    '&:hover': {
-      backgroundColor: '#0070FF',
-      borderColor: '#0070FF',
-      boxShadow: 'none',
-      color: '#eee',
-    },
-    '&:click': {
-      boxShadow: 'none',
-      backgroundColor: '#0070FF',
-      borderColor: '#0070FF',
-      color: '#eee',
-    },
-    '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#0070FF',
-      borderColor: '#0070FF',
-      color: '#eee',
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 0.1rem #0070FF',
-      color: '#eee',
-    }       
-  },
+    zIndex: 0,  
+  },   
 }
 export interface Props {
   bandas: Array<Banda>,
-  handleChangeBandas: (value: Array<Banda>, value2: number) => void
+  handleChangeBandas: (value: Array<Banda>, value2: Banda) => void
   dia: number,
   handleChangeDÃ­a: (value: number) => void,
   filtro: string,
@@ -180,10 +64,10 @@ export default function Grilla({ bandas, handleChangeBandas, dia, handleChangeDÃ
               </CardContent>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', mr: 1 }}>
-                <Fab size="small" aria-label="add" sx={banda.seleccionado ? styles.btn2 : styles.btn2Outline} 
-                    onClick={() => {
-                          banda.seleccionado = true;
-                          handleChangeBandas(bandas, banda.id);
+                <Fab size="small" aria-label="add" sx={banda.seleccionado ? styles.btn : styles.btnOutline} 
+                    onClick={() => { 
+                          banda.seleccionado = !banda.seleccionado;
+                          handleChangeBandas(bandas, banda);
                         }
                       }>
                       {

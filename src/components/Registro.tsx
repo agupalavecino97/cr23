@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Snackbar from '@mui/material/Snackbar';
 import Alert, { AlertColor } from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const initialData = {
@@ -168,7 +169,12 @@ export default function Registro({handleChangeView, handleRegistro, loading}: Pr
             sx={styles.btn}
             onClick={handleSubmit}
         >
-            <span>REGISTRARSE</span>
+            {   !loading
+                ?
+                <span> REGISTRARSE</span>
+                :
+                <CircularProgress color="inherit"/>
+            }
         </Button>
 
         <Button

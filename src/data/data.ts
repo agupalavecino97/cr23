@@ -674,7 +674,7 @@ export const data = {
         },
         {
             id: 13,
-            nombre: "CATUPECUPACHU",
+            nombre: "CATUPECUMACHU",
             horaInicio: "22:15",
             horaFin: "00:00",
             escenario: "Escenario de Montaña",
@@ -714,7 +714,7 @@ export const data = {
         },
         {
             id: 65,
-            nombre: "CA7RIEL Y PACO",
+            nombre: "CA7RIEL Y PACO AMOROSO",
             horaInicio: "23:00",
             horaFin: "00:00",
             escenario: "Escenario Sur",

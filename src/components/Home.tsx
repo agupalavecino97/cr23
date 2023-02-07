@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, SyntheticEvent } from 'react';
 
 import { data } from '../data/data';
 import axios from 'axios';
@@ -17,40 +17,33 @@ import MiGrilla from './MiGrilla';
 // MUI
 import Grid from "@mui/material/Grid";
 import SaveIcon from '@mui/icons-material/Save';
-import Fab from '@mui/material/Fab';
+import Button from '@mui/material/Button';
+import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar";
+import Alert, { AlertColor } from "@mui/material/Alert";
+import Loader from './Loader';
 
 const styles = {
     btnGuardar: {
       border: '1px solid',
       color: '#eee',
-      backgroundColor: '#0070FF',
-      borderColor: '#0070FF',
+      backgroundColor: '#9c27b0',
+      borderColor: '#9c27b0',
       zIndex: 1,
-      position: 'absolute',
-      bottom: '15px',
-      right: '15px',
+      position: 'fixed',
+      bottom: '6em',
+      right: '25%',
       '&:hover': {
-        backgroundColor: '#0070FF',
-        borderColor: '#0070FF',
+        backgroundColor: '#9c27b0',
+        borderColor: '#9c27b0',
         boxShadow: 'none',
         color: '#eee',
       },
       '&:click': {
         boxShadow: 'none',
-        backgroundColor: '#0070FF',
-        borderColor: '#0070FF',
+        backgroundColor: '#9c27b0',
+        borderColor: '#9c27b0',
         color: '#eee',
       },
-      '&:active': {
-        boxShadow: 'none',
-        backgroundColor: '#0070FF',
-        borderColor: '#0070FF',
-        color: '#eee',
-      },
-      '&:focus': {
-        boxShadow: '0 0 0 0.1rem #0070FF',
-        color: '#eee',
-      }       
     },
   }
 
@@ -61,14 +54,22 @@ export default function Home() {
     
     const [dia, setDia] = useState(1);
     const [filtro, setFiltro] = useState('0');
-    const [bandas, setBandas] = useState(Banda.parseArray(data.bandas))
-    const [bandasNoFiltered, setBandasNoFiltered] = useState(Banda.parseArray(data.bandas))
+    const [bandas, setBandas] = useState(Banda.parseArray(data.bandas).reverse())
+    const [bandasNoFiltered, setBandasNoFiltered] = useState(Banda.parseArray(data.bandas).reverse())
     // const [lineUp, setLineUp] = useState<LineUp[]>([])
-    const [bandasToAdd, setBandasToAdd] = useState<string[]>([]);
+    const [bandasToAdd, setBandasToAdd] = useState<number[]>([]);
+    const [bandasToRemove, setBandasToRemove] = useState<number[]>([]);
     const [token, setToken] = useState('')
 
+    const [openMsg, setOpenMsg] = useState(false);
+    const [typeAlert, setTypeAlert] = useState(undefined);
+    const [message, setMessage] = useState("");
+  
+    const [loading, setLoading] = useState(false);
+    
     const getLineUp = useCallback( async () => {
         try {
+          setLoading(true);
           axios.defaults.headers.common.Authorization = 'bearer ' + localStorage.getItem('token');
           const res = await axios.get(`${APIs.LINEUP}/${userLogged.id}`);
           LineUp.parseArray(res.data.data).forEach( 
@@ -80,39 +81,17 @@ export default function Home() {
               setBandas([...bandas]);
               setBandasNoFiltered([...bandas])
             }
-          )
+          );
+          setLoading(false);
       } catch (error){
-          console.log(error)
-      // setLoading(false)
+            setLoading(false);
+            console.log('error', error);
       }
     }, [bandas, userLogged]);
 
-    // const getLineUp = async () => {
-    //     try {
-    //       axios.defaults.headers.common.Authorization = 'bearer ' + localStorage.getItem('token');
-    //       const res = await axios.get(`${APIs.LINEUP}/${userLogged.id}`);
-    //       LineUp.parseArray(res.data.data).forEach( 
-    //         (elem) => {
-    //           let b = bandas.find((banda) => Number(banda.id) === Number(elem.bandaId));
-    //           if (b !== undefined) {
-    //             b.seleccionado = true;
-    //           }
-    //           setBandas([...bandas]);
-    //           setBandasNoFiltered([...bandas])
-    //         }
-    //       )
-    //   } catch (error){
-    //       console.log(error)
-    //   // setLoading(false)
-    //     }
-    // }
-
     useEffect(() => {
-        bandas.forEach( b => {
-            
-        })
-        // getLineUp();
-        if (localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
+        setLoading(false);
+        if (localStorage.getItem('token') && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
             setToken(localStorage.getItem('token') || '')
         }
         if(token !== null) {
@@ -128,6 +107,7 @@ export default function Home() {
             setBandas(Banda.parseArray(data.bandas))
             setBandasNoFiltered(Banda.parseArray(data.bandas))
             setBandasToAdd([]);
+            setBandasToRemove([]);
         }
     }, [token])
 
@@ -191,75 +171,129 @@ export default function Home() {
 
      
     const handleSaveBands = async () => {
-        // setLoading(true)
+        setLoading(true);
         try {
         axios.defaults.headers.common.Authorization = 'bearer ' + localStorage.getItem('token');
-        const res = await axios.post(APIs.LINEUP, {bandas: bandasToAdd, id: userLogged.id});
-            console.log(res)  
-        // if (res.data) {
-                // data.map( (elem: string) => (
-
-                // ))
-                // setLoading(false)
-            // }
+        const res = await axios.post(APIs.LINEUP, {bandasToAdd: bandasToAdd, bandasToRemove: bandasToRemove, id: userLogged.id});
+        console.log(res)
+        if (res.data.msg) {
+            handleOpenAlert('success', res.data.msg);
+            setBandasToAdd([]);
+            setBandasToRemove([]);
+        } 
+        if (res.data.error) {
+            handleOpenAlert('error', res.data.msg);
+        } 
+        setLoading(false);
         } catch (error){
-            console.log(error)
-        // setLoading(false)
-            }
+            console.log('error', error);
+            setLoading(false);
+        }
     }
 
-    const handleChangeBandas = (bandas: Array<Banda>, bandaId: number) => {
+    const handleChangeBandas = (bandas: Array<Banda>, banda: Banda) => {
         setBandas([...bandas])
         setBandasNoFiltered([...bandas]);
-        bandasToAdd.push(bandaId.toString());
+        if (banda.seleccionado) {
+            deleteFromRemove(banda.id);
+            bandasToAdd.push(banda.id);
+        } else {
+            deleteFromAdd(banda.id);
+            bandasToRemove.push(banda.id);
+        }
         setBandasToAdd([...bandasToAdd]);
+        setBandasToRemove([...bandasToRemove]);
     }
 
     const HandleSetToken = (data: string) => {
         setToken(data)
     }
 
+    const deleteFromRemove = (id: number) => {
+        let index = bandasToRemove.findIndex( (b) => b === id);
+        if (index !== -1) {
+            bandasToRemove.splice(index, 1);
+        }
+        setBandasToRemove([...bandasToRemove])
+    }
+
+    const deleteFromAdd = (id: number) => {
+        let index = bandasToAdd.findIndex( (b) => b === id);
+        if (index !== -1) {
+            bandasToAdd.splice(index, 1);
+        }
+        setBandasToAdd([...bandasToAdd])
+    }
+
+    const handleOpenAlert = (type: any, message: string) => {
+        setTypeAlert(type);
+        setMessage(message);
+        setOpenMsg(true);
+    };
+
+    const handleCloseSnackbar = (event: Event | SyntheticEvent<any, Event>, reason: SnackbarCloseReason) => {
+        setOpenMsg(false);
+    };
+
+    const handleCloseAlert = (event: Event | SyntheticEvent<any, Event>) => {
+        setOpenMsg(false);
+    };
+
     return (
         <React.Fragment>
             <Navigation handleSetopenLogin={handleSetopenLogin} user={userLogged} setShowMiGrilla={setShowMiGrilla} handleLogOut={handleLogOut}/>
             <Grid container>
-                {
-                    showMiGrilla 
-                    ?
-                    <MiGrilla 
-                        bandas={bandas.filter((b: Banda) => b.seleccionado)} 
-                        dia={dia} 
-                        handleChangeDía={handleChangeDía} 
-                        filtro={filtro} 
-                        handleChangeFiltro={handleChangeFiltro}
-                        showMiGrilla={showMiGrilla}
-                        handleChangeShowMiGrilla={handleChangeShowMiGrilla}
-                    />
-                    :
-                    <Grilla 
-                        bandas={bandas} 
-                        handleChangeBandas={handleChangeBandas} 
-                        dia={dia} 
-                        handleChangeDía={handleChangeDía} 
-                        filtro={filtro} 
-                        handleChangeFiltro={handleChangeFiltro}
-                        showMiGrilla={showMiGrilla}
-                        handleChangeShowMiGrilla={handleChangeShowMiGrilla}
-                    />
-                }
-                {
-                    bandasToAdd.length > 0 
-                    &&
-                    <Fab  
-                    variant="extended"
-                    sx={styles.btnGuardar}          
-                    onClick={handleSaveBands}>
-                    Guardar datos 
-                    <SaveIcon sx={{ml: 2}}/>
-                    </Fab>
-                }
+            {
+                showMiGrilla 
+                ?
+                <MiGrilla 
+                    bandas={bandas.reverse().filter((b: Banda) => b.seleccionado)} 
+                    dia={dia} 
+                    handleChangeDía={handleChangeDía} 
+                    filtro={filtro} 
+                    handleChangeFiltro={handleChangeFiltro}
+                    showMiGrilla={showMiGrilla}
+                    handleChangeShowMiGrilla={handleChangeShowMiGrilla}
+                />
+                :
+                <Grilla 
+                    bandas={bandas} 
+                    handleChangeBandas={handleChangeBandas} 
+                    dia={dia} 
+                    handleChangeDía={handleChangeDía} 
+                    filtro={filtro} 
+                    handleChangeFiltro={handleChangeFiltro}
+                    showMiGrilla={showMiGrilla}
+                    handleChangeShowMiGrilla={handleChangeShowMiGrilla}
+                />
+            }
+            {
+                (bandasToAdd.length > 0 || bandasToRemove.length > 0) 
+                &&
+                <Button 
+                    sx={styles.btnGuardar} 
+                    variant="contained" 
+                    onClick={handleSaveBands}
+                    endIcon={<SaveIcon/>}>  
+                    Guardar Cambios 
+                </Button>
+            }
                 <Autenticacion open={openLogin} handleSetopenLogin={handleSetopenLogin} handleSetUserLogged={handleSetUserLogged} setToken={HandleSetToken}/>
+                <Snackbar
+                    open={openMsg}
+                    autoHideDuration={6000}
+                    onClose={handleCloseSnackbar}
+                    >
+                    <Alert
+                        onClose={handleCloseAlert}
+                        severity={typeAlert}
+                        sx={{ width: "100%" }}
+                    >
+                        {message}
+                    </Alert>
+                </Snackbar>
             </Grid>
+            <Loader when={loading} />
             <Footer/>
         </React.Fragment>
     )

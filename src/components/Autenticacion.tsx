@@ -14,7 +14,8 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Container from "@mui/material/Container";
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert, { AlertColor } from '@mui/material/Alert';
 // import Snackbar from '@mui/material/Snackbar';
 // import Alert from '@mui/material/Alert';
 
@@ -43,12 +44,16 @@ export interface Props {
     handleSetUserLogged: (value: Usuario) => void;
     setToken: (value: string) => void;
 }
+const severity: AlertColor = "warning";
 
 
 export default function Autenticacion({open, handleSetopenLogin, handleSetUserLogged, setToken}: Props) {
 
     const [showLogin, setShowLogin] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [openAlert, setOpenAlert] = useState(false);
+    const [message, setMessage] = useState("");
+    const [typeAlert, setTypeAlert] = useState(severity);
 
     const handleDrawerClose = () => {
         handleSetopenLogin(false)
@@ -57,7 +62,7 @@ export default function Autenticacion({open, handleSetopenLogin, handleSetUserLo
     const handleLogin = async (user: Usuario) => {
         setLoading(true);
         if (!user.email || !user.password) {
-        //   handleOpenAlert('error', 'Datos incompletos');
+          handleOpenAlert('error', 'Datos incompletos');
           setLoading(false);
           return;
         }
@@ -66,10 +71,10 @@ export default function Autenticacion({open, handleSetopenLogin, handleSetUserLo
           if (res.data.msg) {
             console.log(res.data.msg)
             setLoading(false);
-            // handleOpenAlert('error', res.data.msg);
+            handleOpenAlert('error', res.data.msg);
           }
           if (res.data) {
-            setToken(res.data.token)
+            setToken(res.data.token);
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("userId", res.data.user.id);
             localStorage.setItem("userName", res.data.user.name);
@@ -92,7 +97,7 @@ export default function Autenticacion({open, handleSetopenLogin, handleSetUserLo
     const handleRegistro = async (user: Usuario) => {
         setLoading(true);
         if (!user.email || !user.password || !user.name) {
-        //   handleOpenAlert('error', 'Datos incompletos');
+          handleOpenAlert('error', 'Datos incompletos');
           setLoading(false);
           return;
         }
@@ -100,12 +105,21 @@ export default function Autenticacion({open, handleSetopenLogin, handleSetUserLo
           const res = await axios.post(APIs.REGISTRO, user);
           if (res.data.msg) {
             console.log(res.data.msg)
-            // handleOpenAlert('error', res.data.msg);
+            handleOpenAlert('error', res.data.msg);
           }
           if (res.data) {
+            handleOpenAlert('success', 'Registro Exitoso');
+            setToken(res.data.token);
             localStorage.setItem("token", res.data.token);
-            localStorage.setItem("user", res.data.user);
-            handleSetopenLogin(false)
+            localStorage.setItem("userId", res.data.user.id);
+            localStorage.setItem("userName", res.data.user.name);
+            let obj = {
+                id: localStorage.getItem('userId'),
+                name: localStorage.getItem('userName')
+            };
+            handleSetUserLogged(Usuario.parseItem(obj));
+            handleSetopenLogin(false);
+            handleDrawerClose();
           } 
           setLoading(false);
           
@@ -115,6 +129,16 @@ export default function Autenticacion({open, handleSetopenLogin, handleSetUserLo
             // navigate('/');
         }
     }
+
+     const handleOpenAlert = (type: AlertColor, message: string) => {
+        setTypeAlert(type);
+        setMessage(message);
+        setOpenAlert(true);
+    };
+
+    const handleCloseAlert = () => {
+        setOpenAlert(false);
+    };
 
     return (
         <Drawer
@@ -157,11 +181,11 @@ export default function Autenticacion({open, handleSetopenLogin, handleSetUserLo
                     <Registro handleChangeView={setShowLogin} handleRegistro={handleRegistro} loading={loading}/>
                     }
                 </Container>
-                 {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleCloseAlert}>
+                 <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
                         <Alert onClose={handleCloseAlert} severity={typeAlert} sx={{ width: '100%' }}>
                             {message}
                         </Alert>
-                </Snackbar> */}
+                </Snackbar>
         </Drawer>
     );
 }

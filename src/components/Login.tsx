@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
 import Snackbar from '@mui/material/Snackbar';
 import Alert, { AlertColor } from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export interface Props {
@@ -156,7 +157,12 @@ export default function Login({handleChangeView, handleLogin, loading}: Props) {
                 sx={styles.btn}
                 onClick={handleSubmit}
             >
-                <span>INGRESAR</span>
+                {   !loading
+                    ?
+                    <span> INGRESAR</span>
+                    :
+                    <CircularProgress color="inherit"/>
+                }
             </Button>
 
             <Button
