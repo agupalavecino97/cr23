@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, SyntheticEvent } from 'react';
+import React, { useState, useEffect, SyntheticEvent } from 'react';
 
 import { data } from '../data/data';
 import axios from 'axios';
@@ -19,7 +19,7 @@ import Grid from "@mui/material/Grid";
 import SaveIcon from '@mui/icons-material/Save';
 import Button from '@mui/material/Button';
 import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar";
-import Alert, { AlertColor } from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
 import Loader from './Loader';
 
 const styles = {
@@ -67,28 +67,6 @@ export default function Home() {
   
     const [loading, setLoading] = useState(false);
     
-    const getLineUp = useCallback( async () => {
-        try {
-          setLoading(true);
-          axios.defaults.headers.common.Authorization = 'bearer ' + localStorage.getItem('token');
-          const res = await axios.get(`${APIs.LINEUP}/${userLogged.id}`);
-          LineUp.parseArray(res.data.data).forEach( 
-            (elem) => {
-              let b = bandas.find((banda) => Number(banda.id) === Number(elem.bandaId));
-              if (b !== undefined) {
-                b.seleccionado = true;
-              }
-              setBandas([...bandas]);
-              setBandasNoFiltered([...bandas])
-            }
-          );
-          setLoading(false);
-      } catch (error){
-            setLoading(false);
-            console.log('error', error);
-      }
-    }, [bandas, userLogged]);
-
     useEffect(() => {
         setLoading(false);
         if (localStorage.getItem('token') && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
@@ -109,7 +87,30 @@ export default function Home() {
             setBandasToAdd([]);
             setBandasToRemove([]);
         }
-    }, [token])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token]);
+
+    const getLineUp = async () => {
+        try {
+          setLoading(true);
+          axios.defaults.headers.common.Authorization = 'bearer ' + localStorage.getItem('token');
+          const res = await axios.get(`${APIs.LINEUP}/${userLogged.id}`);
+          LineUp.parseArray(res.data.data).forEach( 
+            (elem) => {
+              let b = bandas.find((banda) => Number(banda.id) === Number(elem.bandaId));
+              if (b !== undefined) {
+                b.seleccionado = true;
+              }
+              setBandas([...bandas]);
+              setBandasNoFiltered([...bandas])
+            }
+          );
+          setLoading(false);
+      } catch (error){
+            setLoading(false);
+            console.log('error', error);
+      }
+    }
 
     const handleSetopenLogin = (value: boolean): void => {
         setOpenLogin(value);
