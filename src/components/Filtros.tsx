@@ -57,7 +57,7 @@ export default function Filtros({dia, handleChangeDía, filtro, handleChangeFilt
                     ?
                     <Button sx={{background: '#9c27b0', color: '#eee', marginTop: '1.2em', marginBottom: '1.2em'}} variant="contained" onClick={() => handleChangeShowMiGrilla(false)} endIcon={<AddIcon/>}> Agregar bandas </Button>
                     :
-                    <Button sx={{background: '#9c27b0', color: '#eee', marginTop: '1.2em', marginBottom: '1.2em'}} variant="contained" onClick={() => handleChangeShowMiGrilla(true)} endIcon={<PlaylistAddCheckCircleIcon/>}>  Mi grilla </Button>
+                    <Button sx={{background: '#9c27b0', color: '#eee', marginTop: '1.2em', marginBottom: '1.2em'}} variant="contained" onClick={() => handleChangeShowMiGrilla(true)} endIcon={<PlaylistAddCheckCircleIcon/>}>  Mi LineUp </Button>
                 }
                 
             </Box>

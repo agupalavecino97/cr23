@@ -1,30 +1,16 @@
-# Foobar
+# CR23
 
-Foobar is a Python library for dealing with word pluralization.
+CR23 es una aplicación web para cerar un lineUP personalizado del festival Cosquín Rock, permite crear una cuenta y 
+guardar las bandas que se deseen ver para organizarse mejor.
+## :hammer: Funcionalidades del proyecto
+- `Registro`: Cualquier persona puede crear una cuenta para guardar el progreso de su LineUp
+- `Login`: Autentificación del usuario con email y contraseña
+- `Mi LineUp`: Permite visualizar las bandas guardadas (LineUp) vinculadas a la cuenta y tambíen si se visualiza el tiempo restante para cada show
+- `Agregar bandas`: En el listado de todas las bandas del festival se puede agregar o eliminar una banda al LineUp 
 
-## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
-```bash
-pip install foobar
-```
-
-## Usage
-
-```python
-import foobar
-
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
-
-## :hammer:Funcionalidades del proyecto
-
-- `Funcionalidad 1`: descripción de la funcionalidad 1- `Funcionalidad 2`: descripción de la funcionalidad 2- `Funcionalidad 2a`: descripción de la funcionalidade 2a relacionada con la funcionalidad 2- `Funcionalidad 3`: descripción de la funcionalidad 3
+## :hammer: Tecnologías usadas
+## :hammer: Frontend
+* React
+* Ipsum version: 2.33
+* Ament library version: 999

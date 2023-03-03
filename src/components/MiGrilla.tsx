@@ -62,7 +62,7 @@ export default function MiGrilla({ bandas, dia, handleChangeDía, filtro, handle
               sx={{ width: 200, height: 200 }}
             />
             <Typography variant="h4" component="h4" sx={{mt:2}}>
-                Grilla vacía
+                LineUp vacía
             </Typography>
         </Box>
 
