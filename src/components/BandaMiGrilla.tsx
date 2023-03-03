@@ -16,7 +16,7 @@ export default function BandaMiGrilla({ banda}: Props) {
         // let fechaBanda = new Date(`${(17 + dia).toString()}-02-2023`);
         let diff = (fechaBanda.getTime() - fechaActual.getTime())/(1000 * 60)
         // banda.estado = '';
-        if (diff > 1440) {
+        if (diff > 1440 && diff < 2880) {
             return 'Mañana';
         }
         if (diff > 90) {

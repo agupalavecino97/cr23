@@ -57,8 +57,8 @@ export default function Home() {
     const [bandas, setBandas] = useState(Banda.parseArray(data.bandas).reverse())
     const [bandasNoFiltered, setBandasNoFiltered] = useState(Banda.parseArray(data.bandas).reverse())
     // const [lineUp, setLineUp] = useState<LineUp[]>([])
-    const [bandasToAdd, setBandasToAdd] = useState<number[]>([]);
-    const [bandasToRemove, setBandasToRemove] = useState<number[]>([]);
+    const [bandasToAdd, setBandasToAdd] = useState<string[]>([]);
+    const [bandasToRemove, setBandasToRemove] = useState<string[]>([]);
     const [token, setToken] = useState('')
 
     const [openMsg, setOpenMsg] = useState(false);
@@ -93,9 +93,16 @@ export default function Home() {
     const getLineUp = async () => {
         try {
           setLoading(true);
-          axios.defaults.headers.common.Authorization = 'bearer ' + localStorage.getItem('token');
-          const res = await axios.get(`${APIs.LINEUP}/${userLogged.id}`);
-          LineUp.parseArray(res.data.data).forEach( 
+          let grilla = []
+          if (localStorage.getItem('grilla')) {
+            grilla = localStorage.getItem('grilla')!.split(',');
+          } else {
+            axios.defaults.headers.common.Authorization = 'bearer ' + localStorage.getItem('token');
+            const res = await axios.get(`${APIs.LINEUP}/${userLogged.id}`);
+            grilla = res.data.data; 
+          }
+          
+          LineUp.parseArray(grilla).forEach( 
             (elem) => {
               let b = bandas.find((banda) => Number(banda.id) === Number(elem.bandaId));
               if (b !== undefined) {
@@ -173,34 +180,54 @@ export default function Home() {
      
     const handleSaveBands = async () => {
         setLoading(true);
+        guardarLocal();
         try {
         axios.defaults.headers.common.Authorization = 'bearer ' + localStorage.getItem('token');
         const res = await axios.post(APIs.LINEUP, {bandasToAdd: bandasToAdd, bandasToRemove: bandasToRemove, id: userLogged.id});
-        console.log(res)
         if (res.data.msg) {
             handleOpenAlert('success', res.data.msg);
-            setBandasToAdd([]);
-            setBandasToRemove([]);
         } 
         if (res.data.error) {
             handleOpenAlert('error', res.data.msg);
         } 
         setLoading(false);
+        setBandasToAdd([]);
+        setBandasToRemove([]);
         } catch (error){
             console.log('error', error);
             setLoading(false);
         }
     }
 
+    const guardarLocal = () => {
+        console.log(bandasToAdd)
+        let grilla = localStorage.getItem('grilla')?.split(',')
+        if (bandasToRemove.length > 0) {
+            bandasToRemove.map( (b) => (
+                grilla = grilla?.filter( g => g === b.toString()) 
+            ));
+        }
+        if (grilla) {
+            bandasToAdd.concat(grilla)
+        }
+        let ids = ''
+        if (bandasToAdd.length > 0) {
+            bandasToAdd.map( b => ids = ids + ','+ b );
+        }
+        console.log(ids);
+        localStorage.setItem('grilla', localStorage.getItem('grilla') ? localStorage.getItem('grilla') + ids : ids);
+
+    }
+
     const handleChangeBandas = (bandas: Array<Banda>, banda: Banda) => {
         setBandas([...bandas])
         setBandasNoFiltered([...bandas]);
         if (banda.seleccionado) {
-            deleteFromRemove(banda.id);
-            bandasToAdd.push(banda.id);
+            deleteFromRemove(banda.id.toString());
+            bandasToAdd.push(banda.id.toString());
         } else {
-            deleteFromAdd(banda.id);
-            bandasToRemove.push(banda.id);
+            deleteFromAdd(banda.id.toString());
+            bandasToRemove.push(banda.id.toString());
         }
         setBandasToAdd([...bandasToAdd]);
         setBandasToRemove([...bandasToRemove]);
@@ -210,7 +237,7 @@ export default function Home() {
         setToken(data)
     }
 
-    const deleteFromRemove = (id: number) => {
+    const deleteFromRemove = (id: string) => {
         let index = bandasToRemove.findIndex( (b) => b === id);
         if (index !== -1) {
             bandasToRemove.splice(index, 1);
@@ -218,7 +245,7 @@ export default function Home() {
         setBandasToRemove([...bandasToRemove])
     }
 
-    const deleteFromAdd = (id: number) => {
+    const deleteFromAdd = (id: string) => {
         let index = bandasToAdd.findIndex( (b) => b === id);
         if (index !== -1) {
             bandasToAdd.splice(index, 1);

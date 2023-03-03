@@ -16,11 +16,16 @@ export default function Footer() {
         <Toolbar className="footer-toolbar">
             <span> Desarollado por Agustín Palavecino</span>
             <div> 
-                <IconButton color="inherit" aria-label="github">
+                <IconButton color="inherit" aria-label="github" >
+                  <a style={{color: 'white'}} target="_blank" rel="noreferrer" href='https://github.com/agupalavecino97'>
                     <GitHubIcon />
+
+                  </a>
                 </IconButton>
                 <IconButton color="inherit" aria-label="web">
-                <   LanguageIcon />
+                  <a style={{color: 'white'}} target="_blank" rel="noreferrer" href='https://agustin-palavecino-portfolio.netlify.app/'>
+                  <LanguageIcon />
+                  </a>
                 </IconButton>
             </div>
         </Toolbar>
