@@ -41,6 +41,7 @@ guardar las bandas que se deseen ver para organizarse mejor.</h4>
 
 > [Mi Portfolio](https://agustin-palavecino-portfolio.netlify.app/) &nbsp;&middot;&nbsp;
 > GitHub [@agupalavecino97](https://github.com/agupalavecino97) &nbsp;&middot;&nbsp;
+> LinkedIn [@agupalavecino97](https://www.linkedin.com/in/agustin-adrian-palavecino/) &nbsp;&middot;&nbsp;
 
 
 
