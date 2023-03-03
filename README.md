@@ -1,31 +1,17 @@
-# CR23
-
-CR23 es una aplicación web para cerar un lineUP personalizado del festival Cosquín Rock, permite crear una cuenta y 
-guardar las bandas que se deseen ver para organizarse mejor.
-
-
-
-## :hammer_and_wrench: Tecnologías usadas
-## :hammer: Frontend
-* React
-* Ipsum version: 2.33
-* Ament library version: 999
-
-
 <h1 align="center">
   <br>
-  <a href="https://cr23.netlify.app/"><img src="public/logo512.png" alt="cr23" width="200"></a>
+  <a href="https://cr23.netlify.app/"><img src="public/cr23.png" alt="cr23" width="200"></a>
   <br>
   CR23
   <br>
 </h1>
 
 <h4 align="center">CR23 es una aplicación web para cerar un lineUP personalizado del festival Cosquín Rock, permite crear una cuenta y 
-guardar las bandas que se deseen ver para organizarse mejor..</h4>
+guardar las bandas que se deseen ver para organizarse mejor.</h4>
 
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
+<img src="public/cr23.png" alt="cr23">
 
-## :hammer: Funcionalidades del proyecto
+## Funcionalidades
 - `Registro`: Cualquier persona puede crear una cuenta para guardar el progreso de su LineUp
 - `Login`: Autentificación del usuario con email y contraseña
 - `Mi LineUp`: Permite visualizar las bandas guardadas (LineUp) vinculadas a la cuenta y tambíen si se visualiza el tiempo restante para cada show
@@ -33,9 +19,8 @@ guardar las bandas que se deseen ver para organizarse mejor..</h4>
 
 ## Deploy
 
-
-[Frontend](https://cr23.netlify.app/)
-[Backend](https://cr23-api.onrender.com)
+- [Frontend](https://cr23.netlify.app/)
+- [Backend](https://cr23-api.onrender.com)
 
 ## Tecnologías
 
