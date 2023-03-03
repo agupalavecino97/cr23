@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://cr23.netlify.app/"><img src="public/cr23.png" alt="cr23" width="200"></a>
+  <a href="https://cr23.netlify.app/"><img src="public/cr23logo.png" alt="cr23" width="200"></a>
   <br>
   CR23
   <br>
